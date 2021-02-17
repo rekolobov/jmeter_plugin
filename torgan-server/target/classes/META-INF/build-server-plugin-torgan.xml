@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
+       default-autowire="constructor">
+
+    <!--AGGREGATION & CHECK REFERENCE: calculation of performance metrics - min, max, 90% line, avg -->
+    <bean id="performanceStatisticFeature" class="org.jetbrains.teamcity.FeaturePerformanceStatistic"/>
+
+    <bean id="performanceTestFailProblemType" class="org.jetbrains.teamcity.ProblemTypeProviderPerformanceTestFailed"/>
+    <bean id="performanceDeclineProblemType" class="org.jetbrains.teamcity.ProblemTypeProviderPerformanceDecline"/>
+
+    <bean id="performanceMetaData" class="org.jetbrains.teamcity.perf_tests.PerformanceBuildMetadataProvider">
+        <constructor-arg index="0" ref="BuildDataStorage"/>
+    </bean>
+
+    <!-- VIEW RESULTS: Performance statistic tab -->
+    <bean id="performanceTestHolder" class="org.jetbrains.teamcity.perf_tests.PerformanceTestProvider">
+        <constructor-arg index="0" ref="buildServer"/>
+        <constructor-arg index="1" ref="BuildDataStorage"/>
+        <constructor-arg index="2" ref="valueProviderRegistry"/>
+    </bean>
+
+    <bean id="performanceStatisticTab" class="org.jetbrains.teamcity.perf_test_charts.PerformanceStatisticTab" init-method="register">
+        <constructor-arg index="0" ref="webControllerManager"/>
+        <constructor-arg index="1" ref="buildServer"/>
+        <constructor-arg index="2" ref="BuildDataStorage"/>
+        <constructor-arg index="3" ref="valueProviderRegistry"/>
+        <constructor-arg index="4" ref="jetbrains.buildServer.web.statistics.graph.BuildGraphHelper"/>
+        <constructor-arg index="5" ref="performanceTestHolder"/>
+    </bean>
+
+    <bean id="performanceChartController" class="org.jetbrains.teamcity.perf_test_charts.PerformanceChartController">
+        <constructor-arg index="0" ref="webControllerManager"/>
+        <constructor-arg index="1" ref="buildServer"/>
+        <constructor-arg index="2" ref="performanceTestHolder"/>
+    </bean>
+
+    <!--different simplest-->
+    <bean id="performancePOSTChartController" class="org.jetbrains.teamcity.PerformancePostChartController"/>
+
+    <!--REMOTE MONITORING: Monitoring of remote machine-->
+    <bean id="remotePerfMonFeature" class="org.jetbrains.teamcity.FeatureRemotePerfMon"/>
+
+
+    <bean id="remotePerfMonTab" class="org.jetbrains.teamcity.remote_monitoring.RemotePerfMonTab">
+        <constructor-arg index="0" ref="webControllerManager"/>
+        <constructor-arg index="1" ref="buildServer"/>
+    </bean>
+
+
+    <!--todo:-->
+
+    <bean id="buildHistoryRefCheck" class="org.jetbrains.teamcity.ref_data.BuildHistoryRefCheckAdapter">
+        <constructor-arg index="0" ref="BuildDataStorage"/>
+    </bean>
+</beans>
