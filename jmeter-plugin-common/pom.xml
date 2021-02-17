@@ -15,11 +15,11 @@
     </dependency>
   </dependencies>
   <parent>
-    <artifactId>torgan</artifactId>
+    <artifactId>jmeter-plugin</artifactId>
     <groupId>org.jetbrains.teamcity</groupId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <artifactId>torgan-common</artifactId>
+  <artifactId>jmeter-plugin-common</artifactId>
   <packaging>jar</packaging>
 
   <build>

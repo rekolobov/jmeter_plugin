@@ -2,14 +2,10 @@
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="Spring" name="Spring">
-      <configuration>
-        <fileset id="fileset" name="Build Server Plugin Torgan" removed="false">
-          <file>file://$MODULE_DIR$/src/main/resources/META-INF/build-server-plugin-torgan.xml</file>
-        </fileset>
-      </configuration>
+      <configuration />
     </facet>
   </component>
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_11">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">
@@ -19,7 +15,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="torgan-common" />
+    <orderEntry type="module" module-name="jmeter-plugin-common" />
     <orderEntry type="library" name="Maven: org.jetbrains:annotations:13.0" level="project" />
     <orderEntry type="library" name="Maven: org.jetbrains.teamcity:common-api:2020.1" level="project" />
     <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.4" level="project" />
@@ -66,13 +62,12 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.tomcat:tomcat-jsp-api:8.5.61" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.tomcat:tomcat-el-api:8.5.61" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.tomcat:tomcat-servlet-api:8.5.61" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: org.springframework:spring-aop:4.3.28.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-aop:4.3.28.RELEASE" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.springframework:spring-aspects:4.3.28.RELEASE" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.aspectj:aspectjweaver:1.8.9" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: org.springframework:spring-context:4.3.28.RELEASE" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.springframework:spring-context-support:4.3.28.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-core:4.3.28.RELEASE" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: org.springframework:spring-expression:4.3.28.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-expression:4.3.28.RELEASE" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.springframework:spring-instrument:4.3.28.RELEASE" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.springframework:spring-jdbc:4.3.28.RELEASE" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.springframework:spring-tx:4.3.28.RELEASE" level="project" />
@@ -95,5 +90,6 @@
     <orderEntry type="library" scope="TEST" name="Maven: com.beust:jcommander:1.72" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.apache-extras.beanshell:bsh:2.0b6" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-beans:4.3.12.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-context:5.3.4" level="project" />
   </component>
 </module>
