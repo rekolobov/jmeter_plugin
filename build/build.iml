@@ -9,9 +9,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="jmeter-plugin-agent" />
-    <orderEntry type="module" module-name="jmeter-plugin-common" />
-    <orderEntry type="module" module-name="jmeter-plugin-server" />
-    <orderEntry type="module" module-name="jmeter-plugin-agent" />
     <orderEntry type="library" name="Maven: org.springframework:spring-context:5.3.4" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-aop:5.3.4" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-core:5.3.4" level="project" />
