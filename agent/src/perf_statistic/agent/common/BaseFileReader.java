@@ -15,18 +15,38 @@ public abstract class BaseFileReader {
 	protected BaseFileReader(PerformanceLogger logger) {
 		myLogger = logger;
 	}
+
 	protected abstract void processLine(String line) throws FileFormatException;
+
+	protected abstract void processGatlingLogLine(String line) throws FileFormatException;
 
 	public abstract void logProcessingResults();
 
 	public void processFile(String file) throws FileFormatException {
+		processFile(file, false);
+	}
+
+	public void processGatlingLogFile(String file) throws FileFormatException {
+		if (file != null) {
+			processFile(file, true);
+		}
+	}
+
+	public void processFile(String file, boolean isGatlingLog) throws FileFormatException {
 		BufferedReader reader = null;
 		try {
 			reader = new BufferedReader(new FileReader(file));
 
 			String line;
-			while (reader.ready() && !(line = reader.readLine()).isEmpty()) {
-				processLine(line);
+
+			if (isGatlingLog) {
+				while (reader.ready() && !(line = reader.readLine()).isEmpty()) {
+					processGatlingLogLine(line);
+				}
+			} else {
+				while (reader.ready() && !(line = reader.readLine()).isEmpty()) {
+					processLine(line);
+				}
 			}
 		} catch (FileNotFoundException e) {
 			myLogger.logBuildProblem(FILE_NOT_FOUND, FILE_NOT_FOUND, "Not found log file! Path - " + file);

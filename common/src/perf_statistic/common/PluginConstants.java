@@ -8,6 +8,7 @@ public class PluginConstants {
 
 	//Feature's parameters
 	public static final String PARAMS_AGGREGATE_FILE = "perfTest.agg.file";
+	public static final String PARAMS_AGGREGATE_GATLING_LOG_FILE = "perfTest.agg.gatling.log.file";
 	public static final String PARAMS_METRIC_MAX = "perfTest.agg.max";
 	public static final String PARAMS_METRIC_MIN = "perfTest.agg.min";
 	public static final String PARAMS_METRIC_AVG = "perfTest.agg.avg";

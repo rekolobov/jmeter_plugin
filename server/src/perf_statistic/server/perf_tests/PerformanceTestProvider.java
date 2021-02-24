@@ -2,6 +2,7 @@ package perf_statistic.server.perf_tests;
 
 import com.intellij.util.containers.SortedList;
 import jetbrains.buildServer.BuildProblemData;
+import jetbrains.buildServer.BuildProblemDataEx;
 import jetbrains.buildServer.log.Loggers;
 import jetbrains.buildServer.serverSide.SBuild;
 import jetbrains.buildServer.serverSide.SBuildServer;

@@ -29,6 +29,14 @@
     </td>
   </tr>
   <tr class="noBorder">
+    <th>File to aggregate gatling simulation log:</th>
+    <td>
+      <props:textProperty name="perfTest.agg.gatling.log.file"/>
+      <span class="smallNote">The path to the gatling simulation log file containing values to aggregate</span>
+      <span class="error" id="error_perfTest.agg.file"></span>
+    </td>
+  </tr>
+  <tr class="noBorder">
     <th><label>Aggregate metrics: <l:star/></label></th>
     <td>
       <span class="error" id="error_perfTest.metrics"></span>
@@ -196,17 +204,3 @@
 <script type="text/javascript">
   perfAnalyzerChanged($('perfTest.check.ref.data'), 'reference_data');
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-

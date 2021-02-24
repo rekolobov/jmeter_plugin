@@ -6,7 +6,12 @@ import jetbrains.buildServer.util.EventDispatcher;
 import org.jetbrains.annotations.NotNull;
 import perf_statistic.agent.common.BaseFileReader;
 import perf_statistic.agent.common.PerformanceLogger;
-import perf_statistic.agent.metric_aggregation.counting.*;
+import perf_statistic.agent.metric_aggregation.counting.BaseAggregation;
+import perf_statistic.agent.metric_aggregation.counting.TestAggregation;
+import perf_statistic.agent.metric_aggregation.counting.TestsGroupAggregation;
+import perf_statistic.agent.metric_aggregation.counting.TestsReport;
+import perf_statistic.agent.metric_aggregation.counting.items.GatlingLogItem;
+import perf_statistic.agent.metric_aggregation.counting.items.Item;
 import perf_statistic.common.PerformanceStatisticMetrics;
 import perf_statistic.common.PluginConstants;
 import perf_statistic.common.StringUtils;
@@ -34,11 +39,14 @@ public class AggregationAgentAdapter extends AgentLifeCycleAdapter {
 
 				try {
 					reader.processFile(properties.getAggregateDataFile(build.getWorkingDirectory().getAbsolutePath()));
+					reader.isTitleLine = true;
+					reader.processGatlingLogFile(properties.getAggregateGatlingLogFile(build.getWorkingDirectory().getAbsolutePath()));
 					reader.logProcessingResults();
 				} catch (BaseFileReader.FileFormatException e) {
 					logger.logBuildProblem(BuildProblemTypes.TC_ERROR_MESSAGE_TYPE, "FileFormatException", e.getMessage());
 				} finally {
 					build.addSharedConfigParameter(PluginConstants.PARAMS_AGGREGATE_FILE, properties.getAggregateDataFile());
+					build.addSharedConfigParameter(PluginConstants.PARAMS_AGGREGATE_GATLING_LOG_FILE, properties.getAggregateGatlingLogFile());
 					build.addSharedConfigParameter(PluginConstants.PARAMS_CALC_TOTAL, String.valueOf(properties.isCalculateTotal()));
 					build.addSharedConfigParameter(PluginConstants.PARAMS_HTTP_RESPONSE_CODE, String.valueOf(properties.isCalculateResponseCodes()));
 				}
@@ -46,9 +54,9 @@ public class AggregationAgentAdapter extends AgentLifeCycleAdapter {
 				if (properties.isCheckReferences()) {
 					if (properties.isFileValues()) {
 						logger.activityStarted(PluginConstants.CHECK_REFERENCE_ACTIVITY_NAME);
-						FilevaluesChecker checker;
+						FileValuesChecker checker;
 						try {
-							checker = new FilevaluesChecker(logger,
+							checker = new FileValuesChecker(logger,
 									properties.getReferencesDataFile(build.getCheckoutDirectory().getAbsolutePath()),
 									properties.getCriticalVariation(), properties.getVariation());
 							checker.checkValues(logger, reader.myReport);
@@ -156,7 +164,6 @@ public class AggregationAgentAdapter extends AgentLifeCycleAdapter {
 			}
 		}
 
-
 		private void logMetricResults(BaseAggregation test, String testsGroupName) {
 			for(PerformanceStatisticMetrics metric : loggedMetrics) {
 				if (metric == PerformanceStatisticMetrics.RESPONSE_CODE && myProperties.isCalculateResponseCodes()) {
@@ -167,6 +174,23 @@ public class AggregationAgentAdapter extends AgentLifeCycleAdapter {
 				} else if (test.isAggregationCalculated()) {
 					myLogger.logMessage(testsGroupName, test.getTitle(), metric.getKey(), Math.round(test.getAggregateValue(metric)), null, false);
 				}
+			}
+		}
+
+		protected void processGatlingLogLine(String line) throws FileFormatException {
+			if (!isTitleLine) {
+				GatlingLogItem item = new GatlingLogItem(line, myProperties);
+				myReport.addItem(item);
+				if (myProperties.isCheckAssertions() && !item.isSuccessful() && !item.isUserLog()) {
+					String fileKey = FileHelper.getFilePath(workingDir, item.getTestGroupName(), item.getTestName());
+					if (failedFileKeys == null) {
+						failedFileKeys = new HashSet<String>();
+					}
+					FileHelper.appendLineToFile(fileKey, item.getLogLine());
+					failedFileKeys.add(fileKey);
+				}
+			} else {
+				isTitleLine = false;
 			}
 		}
 

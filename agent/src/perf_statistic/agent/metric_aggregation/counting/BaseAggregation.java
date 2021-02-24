@@ -3,6 +3,8 @@ package perf_statistic.agent.metric_aggregation.counting;
 import com.intellij.util.containers.SortedList;
 import org.jetbrains.annotations.NotNull;
 import perf_statistic.agent.metric_aggregation.AggregationProperties;
+import perf_statistic.agent.metric_aggregation.counting.items.BaseItem;
+import perf_statistic.agent.metric_aggregation.counting.items.Item;
 import perf_statistic.common.PerformanceStatisticMetrics;
 
 import java.util.Comparator;
@@ -44,7 +46,7 @@ public abstract class BaseAggregation {
 		return myTitle;
 	}
 
-	public void addItem(Item item) {
+	public void addItem(BaseItem item) {
 		if (!myProperties.isCheckAssertions() || item.isSuccessful()) {
 			addCalculatedValue(item.getResponseTime());
 		}

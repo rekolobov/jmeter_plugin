@@ -1,6 +1,8 @@
 package perf_statistic.agent.metric_aggregation.counting;
 
 import perf_statistic.agent.metric_aggregation.AggregationProperties;
+import perf_statistic.agent.metric_aggregation.counting.items.BaseItem;
+import perf_statistic.agent.metric_aggregation.counting.items.Item;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +24,7 @@ public class TestsReport {
 		return myTestsGroups.get(testGroupName);
 	}
 
-	public void addItem(Item item) {
+	public void addItem(BaseItem item) {
 		TestsGroupAggregation testsGroup = myTestsGroups.get(item.getTestGroupName());
 		if (testsGroup == null) {
 			testsGroup = new TestsGroupAggregation(myProperties);

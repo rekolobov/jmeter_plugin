@@ -13,6 +13,7 @@ import java.util.Map;
 public class AggregationProperties {
 //  Aggregate	parameters
 	private final String aggregateFile;
+	private final String aggregateGatlingLogFile;
 	private final boolean[] metrics = new boolean[5];
 
 	private final boolean responseCodes;
@@ -38,6 +39,7 @@ public class AggregationProperties {
 
 	public AggregationProperties(@NotNull Map<String, String> params) {
 		aggregateFile = params.get(PluginConstants.PARAMS_AGGREGATE_FILE);
+		aggregateGatlingLogFile = params.get(PluginConstants.PARAMS_AGGREGATE_GATLING_LOG_FILE);
 
 		metrics[0] = Boolean.parseBoolean(params.get(PluginConstants.PARAMS_METRIC_AVG));
 		metrics[1] = Boolean.parseBoolean(params.get(PluginConstants.PARAMS_METRIC_MAX));
@@ -82,9 +84,23 @@ public class AggregationProperties {
 		}
 		return workingDir + File.separator + aggregateFile;
 	}
+
+	@NotNull
+	public String getAggregateGatlingLogFile(@NotNull final String workingDir) {
+		if (aggregateGatlingLogFile == null) {
+			return null;
+		}
+		return workingDir + File.separator + aggregateGatlingLogFile;
+	}
+
 	@NotNull
 	public String getAggregateDataFile() {
 		return aggregateFile;
+	}
+
+	@NotNull
+	public String getAggregateGatlingLogFile() {
+		return aggregateGatlingLogFile;
 	}
 
 	public List<PerformanceStatisticMetrics> getSelectedMetrics() {

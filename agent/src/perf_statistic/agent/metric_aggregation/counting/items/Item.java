@@ -1,32 +1,34 @@
-package perf_statistic.agent.metric_aggregation.counting;
+/*
+ * Copyright 2000-2021 JetBrains s.r.o.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import perf_statistic.agent.common.BaseFileReader;
+package perf_statistic.agent.metric_aggregation.counting.items;
+
 import perf_statistic.agent.metric_aggregation.AggregationProperties;
 import perf_statistic.common.PerformanceMessageParser;
 import perf_statistic.common.StringUtils;
 
-import java.util.Arrays;
-
-public class Item {
-//	protected final String startTime;
-	private final long responseTime;
-	private final String testName;
-	private String responseCode = null;
-	private boolean isSuccessful;
-	private String testGroupName = StringUtils.EMPTY;
-
-//	save only if check assertions and item is not successful
-	protected String logLine;
+public class Item extends BaseItem{
 
 	public Item(String line, AggregationProperties properties) throws IllegalItemFormatException {
 		String[] values = PerformanceMessageParser.DELIMITER_PATTERN.split(line);
-			
+
 		if (values == null || values.length < 3) {  //failureMessage may be empty
 			throw new IllegalItemFormatException("", values);
 		}
-//		startTime = values[0];
+
 		responseTime = Long.parseLong(values[1]);
 		if (properties.isUsedTestGroups()) {
 			String[] testNameParts = values[2].split(":");
@@ -45,7 +47,7 @@ public class Item {
 		if (assets && !isSuccessful) {
 			logLine = line;
 		}
-		if(codes && assets) {
+		if (codes && assets) {
 			if (values.length < 5)
 				throw new IllegalItemFormatException("\tresponseCode\tisSuccess", values);
 			responseCode = values[3];
@@ -61,50 +63,11 @@ public class Item {
 		}
 	}
 
-//	public String getStartTime() {
-//		return startTime;
-//	}
-
-	public long getResponseTime() {
-		return responseTime;
-	}
-
-	public String getTestName() {
-		return testName;
-	}
-
-	public String getResponseCode() {
-		return responseCode;
-	}
-
-	public boolean isSuccessful() {
-		return isSuccessful;
-	}
-
-	@NotNull
-	public String getTestGroupName() {
-		return testGroupName  != null ? testGroupName : StringUtils.EMPTY;
-	}
-
-	@Nullable
-	public String getLogLine() {
-		return logLine;
-	}
-
-	public String toString(){
+	public String toString() {
 		return "_Item_: responseTime=[" + responseTime
 				+ "] testName=[" + testName
 				+ "] responseCode=[" + responseCode
 				+ "] isSuccessful=[" + isSuccessful
 				+ "] testGroupName=[" + testGroupName;
-	}
-
-	public static class IllegalItemFormatException  extends BaseFileReader.FileFormatException {
-		public IllegalItemFormatException(String message) {
-			super(message);
-		}
-		public IllegalItemFormatException(String wrongFiledNames, String[] actualData) {
-			super("Result item format must included asserted result. Format: startTime\tresponseTime\ttestName" + wrongFiledNames + "...\nFound" + Arrays.toString(actualData));
-		}
 	}
 }
