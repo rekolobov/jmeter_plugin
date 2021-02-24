@@ -10,6 +10,7 @@ import perf_statistic.agent.metric_aggregation.counting.BaseAggregation;
 import perf_statistic.agent.metric_aggregation.counting.TestAggregation;
 import perf_statistic.agent.metric_aggregation.counting.TestsGroupAggregation;
 import perf_statistic.agent.metric_aggregation.counting.TestsReport;
+import perf_statistic.agent.metric_aggregation.counting.items.BaseItem;
 import perf_statistic.agent.metric_aggregation.counting.items.GatlingLogItem;
 import perf_statistic.agent.metric_aggregation.counting.items.Item;
 import perf_statistic.common.PerformanceStatisticMetrics;
@@ -109,14 +110,7 @@ public class AggregationAgentAdapter extends AgentLifeCycleAdapter {
 			if (!isTitleLine) {
 				Item item = new Item(line, myProperties);
 				myReport.addItem(item);
-				if (myProperties.isCheckAssertions() && !item.isSuccessful()) {
-					String fileKey = FileHelper.getFilePath(workingDir, item.getTestGroupName(), item.getTestName());
-					if (failedFileKeys == null) {
-						failedFileKeys = new HashSet<String>();
-					}
-					FileHelper.appendLineToFile(fileKey, item.getLogLine());
-					failedFileKeys.add(fileKey);
-				}
+				createFailedRequestFile(item);
 			} else {
 				isTitleLine = false;
 			}
@@ -180,20 +174,23 @@ public class AggregationAgentAdapter extends AgentLifeCycleAdapter {
 		protected void processGatlingLogLine(String line) throws FileFormatException {
 			if (!isTitleLine) {
 				GatlingLogItem item = new GatlingLogItem(line, myProperties);
-				myLogger.logMessage(item.toString());
 				if (!item.isUserLog()) {
 					myReport.addItem(item);
-					if (myProperties.isCheckAssertions() && !item.isSuccessful()) {
-						String fileKey = FileHelper.getFilePath(workingDir, item.getTestGroupName(), item.getTestName());
-						if (failedFileKeys == null) {
-							failedFileKeys = new HashSet<String>();
-						}
-						FileHelper.appendLineToFile(fileKey, item.getLogLine());
-						failedFileKeys.add(fileKey);
-					}
+					createFailedRequestFile(item);
 				}
 			} else {
 				isTitleLine = false;
+			}
+		}
+
+		private <T extends BaseItem> void createFailedRequestFile(T item){
+			if (myProperties.isCheckAssertions() && !item.isSuccessful()) {
+				String fileKey = FileHelper.getFilePath(workingDir, item.getTestGroupName(), item.getTestName());
+				if (failedFileKeys == null) {
+					failedFileKeys = new HashSet<String>();
+				}
+				FileHelper.appendLineToFile(fileKey, item.getLogLine());
+				failedFileKeys.add(fileKey);
 			}
 		}
 
