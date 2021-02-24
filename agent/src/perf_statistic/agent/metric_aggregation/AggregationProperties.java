@@ -85,7 +85,6 @@ public class AggregationProperties {
 		return workingDir + File.separator + aggregateFile;
 	}
 
-	@NotNull
 	public String getAggregateGatlingLogFile(@NotNull final String workingDir) {
 		if (aggregateGatlingLogFile == null) {
 			return null;

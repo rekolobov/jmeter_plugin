@@ -2,7 +2,6 @@ package perf_statistic.agent.metric_aggregation.counting;
 
 import perf_statistic.agent.metric_aggregation.AggregationProperties;
 import perf_statistic.agent.metric_aggregation.counting.items.BaseItem;
-import perf_statistic.agent.metric_aggregation.counting.items.Item;
 import perf_statistic.common.PluginConstants;
 
 import java.util.*;
@@ -16,7 +15,7 @@ public class TestsGroupAggregation extends BaseAggregation {
 		tests = new HashMap<String, TestAggregation>();
 	}
 
-	public void addItem(BaseItem item) {
+	public <T extends BaseItem> void addItem(T item) {
 		if (myProperties.isCalculateTotal()) {
 			super.addItem(item);
 		}

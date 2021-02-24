@@ -122,7 +122,6 @@ public class AggregationAgentAdapter extends AgentLifeCycleAdapter {
 			}
 		}
 
-
 		@Override
 		public void logProcessingResults() {
 			Map<String, TestsGroupAggregation> reports = myReport.getTestsGroups();
@@ -134,7 +133,7 @@ public class AggregationAgentAdapter extends AgentLifeCycleAdapter {
 				Map<String, TestAggregation> tests = report.getTests();
 
 				if (!tests.isEmpty()) {
-					for(TestAggregation test : tests.values()) {
+					for (TestAggregation test : tests.values()) {
 						String testName = test.getTitle();
 
 						if (logResultsAsTests) {
@@ -142,7 +141,7 @@ public class AggregationAgentAdapter extends AgentLifeCycleAdapter {
 
 							String failedFileKey = FileHelper.getFilePath(workingDir, testsGroupName, testName);
 							//	log assertions results
-							if (myProperties.isCheckAssertions() &&  failedFileKeys != null && failedFileKeys.contains(failedFileKey)) {
+							if (myProperties.isCheckAssertions() && failedFileKeys != null && failedFileKeys.contains(failedFileKey)) {
 								myLogger.logTestFailed(testName + testsGroupName, PluginConstants.ASSERTION_FAILED_PROBLEM_TYPE, FileHelper.getFileContent(failedFileKey));
 							}
 						}
@@ -155,7 +154,7 @@ public class AggregationAgentAdapter extends AgentLifeCycleAdapter {
 				}
 
 				// log total if need
-				if (myProperties.isCalculateTotal())  {
+				if (myProperties.isCalculateTotal()) {
 					myLogger.logTestStarted(report.getTitle());
 					logMetricResults(report, testsGroupName);
 					myLogger.logTestFinished(report.getTitle());
@@ -165,10 +164,10 @@ public class AggregationAgentAdapter extends AgentLifeCycleAdapter {
 		}
 
 		private void logMetricResults(BaseAggregation test, String testsGroupName) {
-			for(PerformanceStatisticMetrics metric : loggedMetrics) {
+			for (PerformanceStatisticMetrics metric : loggedMetrics) {
 				if (metric == PerformanceStatisticMetrics.RESPONSE_CODE && myProperties.isCalculateResponseCodes()) {
 					Map<String, Long> codes = test.getCodes();
-					for(String code : codes.keySet()) {
+					for (String code : codes.keySet()) {
 						myLogger.logMessage(testsGroupName, test.getTitle(), PerformanceStatisticMetrics.RESPONSE_CODE.getKey(), codes.get(code), code, false);
 					}
 				} else if (test.isAggregationCalculated()) {
@@ -177,17 +176,21 @@ public class AggregationAgentAdapter extends AgentLifeCycleAdapter {
 			}
 		}
 
+		@Override
 		protected void processGatlingLogLine(String line) throws FileFormatException {
 			if (!isTitleLine) {
 				GatlingLogItem item = new GatlingLogItem(line, myProperties);
-				myReport.addItem(item);
-				if (myProperties.isCheckAssertions() && !item.isSuccessful() && !item.isUserLog()) {
-					String fileKey = FileHelper.getFilePath(workingDir, item.getTestGroupName(), item.getTestName());
-					if (failedFileKeys == null) {
-						failedFileKeys = new HashSet<String>();
+				myLogger.logMessage(item.toString());
+				if (!item.isUserLog()) {
+					myReport.addItem(item);
+					if (myProperties.isCheckAssertions() && !item.isSuccessful()) {
+						String fileKey = FileHelper.getFilePath(workingDir, item.getTestGroupName(), item.getTestName());
+						if (failedFileKeys == null) {
+							failedFileKeys = new HashSet<String>();
+						}
+						FileHelper.appendLineToFile(fileKey, item.getLogLine());
+						failedFileKeys.add(fileKey);
 					}
-					FileHelper.appendLineToFile(fileKey, item.getLogLine());
-					failedFileKeys.add(fileKey);
 				}
 			} else {
 				isTitleLine = false;
@@ -197,14 +200,12 @@ public class AggregationAgentAdapter extends AgentLifeCycleAdapter {
 	}
 
 
-
-
 	/**
 	 * Helper to log failed items in temp files
 	 */
 	private final static class FileHelper {
 		private static String getFilePath(String workingDir, String testGroupName, String testName) {
-			return workingDir+ File.separator + StringUtils.replaceNonWordSymbols(testName + testGroupName) + ".failed";
+			return workingDir + File.separator + StringUtils.replaceNonWordSymbols(testName + testGroupName) + ".failed";
 		}
 
 		private static void appendLineToFile(String fileName, String line) {

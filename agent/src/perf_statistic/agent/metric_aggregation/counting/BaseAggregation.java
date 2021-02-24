@@ -46,7 +46,7 @@ public abstract class BaseAggregation {
 		return myTitle;
 	}
 
-	public void addItem(BaseItem item) {
+	public <T extends BaseItem> void addItem(T item) {
 		if (!myProperties.isCheckAssertions() || item.isSuccessful()) {
 			addCalculatedValue(item.getResponseTime());
 		}
