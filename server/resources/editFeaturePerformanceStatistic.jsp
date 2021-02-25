@@ -116,6 +116,7 @@
 <tr class="reference_data" ${display}>
   <th><label>Get reference values from: <l:star/></label></th>
   <td>
+    <span class="error" id="error_perfTest.agg.ref"></span>
     <table width="100%">
       <tr>
         <td>
@@ -168,6 +169,31 @@
           </div>
           <script type="text/javascript">
             perfAnalyzerChanged($('perfTest.ref.type.builds'), 'buildHistoryProperties');
+          </script>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <%--Tagged build--%>
+          <div>
+            <props:checkboxProperty name="perfTest.ref.type.tags"
+                                    onclick="perfAnalyzerChanged(this, 'taggedBuildsProperties');"
+                                    checked="${propertiesBean.properties['perfTest.check.type.tags'] == 'true'}"/>
+            <label for="perfTest.ref.type.tags"> tagged builds </label>
+          </div>
+          <c:set var="displayBuilds"><c:if test="${propertiesBean.properties['perfTest.check.type.tags'] != 'true'}">style="display: none"</c:if></c:set>
+          <div class="taggedBuildsProperties" ${displayBuilds}>
+            <div style="padding-top: 5px;">
+              <div>Count reference values for:</div>
+              <div style="margin-left: 10px">
+                <props:checkboxProperty name="perfTest.agg.ref.avg" style="margin-right: 5px"/><label for="perfTest.agg.ref.avg">Average</label> <br/>
+                <props:checkboxProperty name="perfTest.agg.ref.90line" style="margin-right: 5px"/><label for="perfTest.agg.ref.90line">90% line</label> <br/>
+                <props:checkboxProperty name="perfTest.agg.ref.max" style="margin-right: 5px"/><label for="perfTest.agg.ref.max">Max</label> <br/>
+              </div>
+            </div>
+          </div>
+          <script type="text/javascript">
+            perfAnalyzerChanged($('perfTest.ref.type.tags'), 'taggedBuildsProperties');
           </script>
         </td>
       </tr>
