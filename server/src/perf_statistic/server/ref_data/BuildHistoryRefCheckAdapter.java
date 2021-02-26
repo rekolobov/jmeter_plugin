@@ -42,6 +42,7 @@ public class BuildHistoryRefCheckAdapter extends BuildServerAdapter {
 
 		if ("true".equals(parametersProvider.get(PluginConstants.PARAMS_REF_CHECK))
 				&& "true".equals(parametersProvider.get(PluginConstants.PARAMS_REF_TYPE_BUILD_HISTORY))) {
+
 			runningBuild.getBuildLog().message(CHECK_REFERENCE_ACTIVITY_NAME_BUILD_HISTORY, Status.NORMAL, MessageAttrs.serverMessage());
 
 //		    calculate ref values form history build
@@ -80,9 +81,9 @@ public class BuildHistoryRefCheckAdapter extends BuildServerAdapter {
 				}
 				processValues(historyValues, currentValues, runningBuild, parametersProvider);
 			}
-			runningBuild.addBuildMessage(DefaultMessagesInfo.createBlockEnd(CHECK_REFERENCE_ACTIVITY_NAME_BUILD_HISTORY, DefaultMessagesInfo.BLOCK_TYPE_MODULE));
 		} else if ("true".equals(parametersProvider.get(PluginConstants.PARAMS_REF_CHECK)) &&
 				"true".equals(parametersProvider.get(PluginConstants.PARAMS_REF_TYPE_TAGS))) {
+
 			runningBuild.getBuildLog().message(CHECK_REFERENCE_ACTIVITY_NAME_TAGS, Status.NORMAL, MessageAttrs.serverMessage());
 
 //		    calculate ref values form tagged builds
@@ -118,13 +119,13 @@ public class BuildHistoryRefCheckAdapter extends BuildServerAdapter {
 				}
 				processValues(tagValues, currentValues, runningBuild, parametersProvider);
 			}
-			runningBuild.addBuildMessage(DefaultMessagesInfo.createBlockEnd(CHECK_REFERENCE_ACTIVITY_NAME_TAGS, DefaultMessagesInfo.BLOCK_TYPE_MODULE));
 		}
 	}
 
 	private void processValues(Map<String, List<BigDecimal>> relatedValues, Map<String, PerformanceMessage> currentValues, SRunningBuild runningBuild, ParametersProvider parametersProvider) {
 		Double criticalVariation = parametersProvider.get(PluginConstants.PARAMS_VARIATION_CRITICAL) == null ? 0.15 : Double.parseDouble(parametersProvider.get(PluginConstants.PARAMS_VARIATION_CRITICAL));
 		Double variation = parametersProvider.get(PluginConstants.PARAMS_VARIATION_WARN) == null ? Double.NEGATIVE_INFINITY : Double.parseDouble(parametersProvider.get(PluginConstants.PARAMS_VARIATION_WARN));
+
 		if (!relatedValues.isEmpty()) {
 			for (String key : currentValues.keySet()) {
 				if (currentValues.get(key) == null)
