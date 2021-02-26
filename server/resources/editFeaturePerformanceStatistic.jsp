@@ -8,7 +8,7 @@
 <script type="text/javascript">
   window.perfAnalyzerChanged = function (me, class_data) {
     var data = document.getElementsByClassName(class_data);
-    for(var i = 0 ;i <data.length; i++) {
+    for (var i = 0; i < data.length; i++) {
       if (me.checked) {
         BS.Util.show(data[i]);
       } else {
@@ -51,7 +51,8 @@
         </tr>
         <tr>
           <td colspan="2">
-            <props:checkboxProperty name="perfTest.agg.respCode"/><label for="perfTest.agg.respCode">response codes</label>
+            <props:checkboxProperty name="perfTest.agg.respCode"/><label for="perfTest.agg.respCode">response
+            codes</label>
             <span class="smallNote">set to calculate distribution if log items contains response codes</span>
           </td>
         </tr>
@@ -75,13 +76,15 @@
         </tr>
         <tr>
           <td>
-            <props:checkboxProperty name="perfTest.agg.testGroups"/><label for="perfTest.agg.testGroups">thread groups</label>
+            <props:checkboxProperty name="perfTest.agg.testGroups"/><label for="perfTest.agg.testGroups">thread
+            groups</label>
             <span class="smallNote">tests starts on different thread count</span>
           </td>
         </tr>
         <tr>
           <td style="padding-top: 0 !important;">
-            <props:checkboxProperty name="perfTest.agg.testFormat"/><label for="perfTest.agg.testFormat">used TeamCity tests format</label>
+            <props:checkboxProperty name="perfTest.agg.testFormat"/><label for="perfTest.agg.testFormat">used TeamCity
+            tests format</label>
             <span class="smallNote">set you are NOT using:<br/> 1. Test framework (JUnit, TestNG)<br/>2. TeamCity service messages to log test results</span>
           </td>
         </tr>
@@ -91,7 +94,8 @@
 </l:settingsGroup>
 
 <%--Reference data--%>
-<c:set var="display"><c:if test="${propertiesBean.properties['perfTest.check.ref.data'] != 'true'}">style="display: none"</c:if></c:set>
+<c:set var="display"><c:if
+        test="${propertiesBean.properties['perfTest.check.ref.data'] != 'true'}">style="display: none"</c:if></c:set>
 <tr class="groupingTitle">
   <td><label for="perfTest.check.ref.data">Check reference values</label>
   </td>
@@ -128,12 +132,13 @@
             <label for="perfTest.ref.type.file"> file </label>
           </div>
 
-          <c:set var="displayFile"><c:if test="${propertiesBean.properties['perfTest.check.type.file'] != 'true'}">style="display: none"</c:if></c:set>
+          <c:set var="displayFile"><c:if
+                  test="${propertiesBean.properties['perfTest.check.type.file'] != 'true'}">style="display: none"</c:if></c:set>
           <div class="fileProperties" ${displayFile}>
             <div style="padding-top: 5px">
               <props:textProperty name="perfTest.ref.data" style="width: 20em;"/>
               <bs:vcsTree fieldId="perfTest.ref.data"/>
-                          <span class="smallNote">The path to the reference file.<br/>
+              <span class="smallNote">The path to the reference file.<br/>
               Note: There is the static values. It overrides dynamic reference values counted form build history.</span>
               <span class="error" id="error_perfTest.ref.data"></span>
             </div>
@@ -152,7 +157,8 @@
                                     checked="${propertiesBean.properties['perfTest.check.type.builds'] == 'true'}"/>
             <label for="perfTest.ref.type.builds"> build history </label>
           </div>
-          <c:set var="displayBuilds"><c:if test="${propertiesBean.properties['perfTest.check.type.builds'] != 'true'}">style="display: none"</c:if></c:set>
+          <c:set var="displayBuilds"><c:if
+                  test="${propertiesBean.properties['perfTest.check.type.builds'] != 'true'}">style="display: none"</c:if></c:set>
           <div class="buildHistoryProperties" ${displayBuilds}>
             <div style="padding-top: 5px;">
               <props:textProperty name="perfTest.ref.buildCount" style="width: 10em"/>
@@ -161,9 +167,12 @@
 
               <div>Count reference values for:</div>
               <div style="margin-left: 10px">
-                <props:checkboxProperty name="perfTest.agg.ref.avg" style="margin-right: 5px"/><label for="perfTest.agg.ref.avg">Average</label> <br/>
-                <props:checkboxProperty name="perfTest.agg.ref.90line" style="margin-right: 5px"/><label for="perfTest.agg.ref.90line">90% line</label> <br/>
-                <props:checkboxProperty name="perfTest.agg.ref.max" style="margin-right: 5px"/><label for="perfTest.agg.ref.max">Max</label> <br/>
+                <props:checkboxProperty name="perfTest.agg.ref.avg" style="margin-right: 5px"/><label
+                      for="perfTest.agg.ref.avg">Average</label> <br/>
+                <props:checkboxProperty name="perfTest.agg.ref.90line" style="margin-right: 5px"/><label
+                      for="perfTest.agg.ref.90line">90% line</label> <br/>
+                <props:checkboxProperty name="perfTest.agg.ref.max" style="margin-right: 5px"/><label
+                      for="perfTest.agg.ref.max">Max</label> <br/>
               </div>
             </div>
           </div>
@@ -181,14 +190,21 @@
                                     checked="${propertiesBean.properties['perfTest.check.type.tags'] == 'true'}"/>
             <label for="perfTest.ref.type.tags"> tagged builds </label>
           </div>
-          <c:set var="displayTaggedBuilds"><c:if test="${propertiesBean.properties['perfTest.check.type.tags'] != 'true'}">style="display: none"</c:if></c:set>
+          <c:set var="displayTaggedBuilds"><c:if
+                  test="${propertiesBean.properties['perfTest.check.type.tags'] != 'true'}">style="display: none"</c:if></c:set>
           <div class="taggedBuildsProperties" ${displayTaggedBuilds}>
             <div style="padding-top: 5px;">
+              <div>
+                <span class="smallNote">Tag multiple builds by 'performance_statistics' to calculate reference values</span>
+              </div>
               <div>Count reference values for:</div>
               <div style="margin-left: 10px">
-                <props:checkboxProperty name="perfTest.agg.ref.avg" style="margin-right: 5px"/><label for="perfTest.agg.ref.avg">Average</label> <br/>
-                <props:checkboxProperty name="perfTest.agg.ref.90line" style="margin-right: 5px"/><label for="perfTest.agg.ref.90line">90% line</label> <br/>
-                <props:checkboxProperty name="perfTest.agg.ref.max" style="margin-right: 5px"/><label for="perfTest.agg.ref.max">Max</label> <br/>
+                <props:checkboxProperty name="perfTest.agg.ref.avg" style="margin-right: 5px"/><label
+                      for="perfTest.agg.ref.avg">Average</label> <br/>
+                <props:checkboxProperty name="perfTest.agg.ref.90line" style="margin-right: 5px"/><label
+                      for="perfTest.agg.ref.90line">90% line</label> <br/>
+                <props:checkboxProperty name="perfTest.agg.ref.max" style="margin-right: 5px"/><label
+                      for="perfTest.agg.ref.max">Max</label> <br/>
               </div>
             </div>
           </div>
