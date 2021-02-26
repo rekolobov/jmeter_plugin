@@ -181,8 +181,8 @@
                                     checked="${propertiesBean.properties['perfTest.check.type.tags'] == 'true'}"/>
             <label for="perfTest.ref.type.tags"> tagged builds </label>
           </div>
-          <c:set var="displayBuilds"><c:if test="${propertiesBean.properties['perfTest.check.type.tags'] != 'true'}">style="display: none"</c:if></c:set>
-          <div class="taggedBuildsProperties" ${displayBuilds}>
+          <c:set var="displayTaggedBuilds"><c:if test="${propertiesBean.properties['perfTest.check.type.tags'] != 'true'}">style="display: none"</c:if></c:set>
+          <div class="taggedBuildsProperties" ${displayTaggedBuilds}>
             <div style="padding-top: 5px;">
               <div>Count reference values for:</div>
               <div style="margin-left: 10px">

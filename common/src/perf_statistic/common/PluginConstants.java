@@ -5,6 +5,7 @@ public class PluginConstants {
 	public static final String FEATURE_TYPE_AGGREGATION = "performance_test_analyzer";
 	public static final String FEATURE_TYPE_REMOTE_MONITORING = "performance_remote_monitoring";
 
+	public static final String TAG_PERFORMANCE_STATISTICS = "performance_statistics";
 
 	//Feature's parameters
 	public static final String PARAMS_AGGREGATE_FILE = "perfTest.agg.file";
