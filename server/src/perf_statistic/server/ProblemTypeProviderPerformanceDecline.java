@@ -11,7 +11,11 @@ public class ProblemTypeProviderPerformanceDecline extends BaseBuildProblemTypeD
 
 	@Nullable
 	public String getStatusText(@NotNull final BuildProblemData buildProblem, @NotNull final SBuild build) {
-		return PluginConstants.CRITICAL_PERFORMANCE_PROBLEM_TYPE;
+		return PluginConstants.CRITICAL_PERFORMANCE_PROBLEM_TYPE + ": " + build.getFailureReasons()
+				.stream().filter(reason ->
+						reason.getType().equals(
+								PluginConstants.CRITICAL_PERFORMANCE_PROBLEM_TYPE))
+				.count();
 	}
 
 	@NotNull

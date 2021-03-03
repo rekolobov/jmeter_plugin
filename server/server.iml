@@ -26,10 +26,11 @@
         <webroots>
           <root url="file://$MODULE_DIR$/resources" relative="/plugins/SPECIAL_NAME" />
         </webroots>
+        <sourceRoots />
       </configuration>
     </facet>
   </component>
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_6" inherit-compiler-output="true">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
@@ -47,4 +48,3 @@
     <orderEntry type="library" name="TeamCity server runtime" level="project" />
   </component>
 </module>
-
