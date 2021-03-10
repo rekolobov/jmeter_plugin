@@ -27,7 +27,7 @@
       </configuration>
     </facet>
   </component>
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_6" inherit-compiler-output="true">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_11" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$TeamCityDistribution$/webapps/ROOT">
       <sourceFolder url="file://$TeamCityDistribution$/webapps/ROOT" isTestSource="false" />
@@ -50,4 +50,3 @@
     <orderEntry type="library" name="TeamCity agent runtime" level="project" />
   </component>
 </module>
-

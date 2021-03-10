@@ -33,6 +33,7 @@ public class AggregationProperties {
 	private String referencesDataFile;
 
 	private boolean isBuildHistoryValues;
+	private boolean isTaggedBuildsValues;
 	private int buildCount;
 	private boolean[] refMetrics;
 
@@ -63,11 +64,18 @@ public class AggregationProperties {
 
 			isFileValues = Boolean.parseBoolean(params.get(PluginConstants.PARAMS_REF_TYPE_FILE));
 			isBuildHistoryValues = Boolean.parseBoolean(params.get(PluginConstants.PARAMS_REF_TYPE_BUILD_HISTORY));
+			isTaggedBuildsValues = Boolean.parseBoolean(params.get(PluginConstants.PARAMS_REF_TYPE_TAGS));
 			if (isFileValues) {
 				referencesDataFile = params.get(PluginConstants.PARAMS_REF_DATA_FILE);
 			}
 			if (isBuildHistoryValues) {
 				buildCount = Integer.parseInt(params.get(PluginConstants.PARAMS_REF_BUILD_COUNT));
+				refMetrics = new boolean[3];
+				refMetrics[0] = Boolean.parseBoolean(params.get(PluginConstants.PARAMS_REF_METRIC_AVG));
+				refMetrics[1] = Boolean.parseBoolean(params.get(PluginConstants.PARAMS_REF_METRIC_LINE90));
+				refMetrics[2] = Boolean.parseBoolean(params.get(PluginConstants.PARAMS_REF_METRIC_MAX));
+			}
+			if (isTaggedBuildsValues) {
 				refMetrics = new boolean[3];
 				refMetrics[0] = Boolean.parseBoolean(params.get(PluginConstants.PARAMS_REF_METRIC_AVG));
 				refMetrics[1] = Boolean.parseBoolean(params.get(PluginConstants.PARAMS_REF_METRIC_LINE90));
@@ -143,6 +151,10 @@ public class AggregationProperties {
 
 	public boolean isBuildHistoryValues() {
 		return isBuildHistoryValues;
+	}
+
+	public boolean isTaggedBuildsValues() {
+		return isTaggedBuildsValues;
 	}
 
 	public int getBuildCount() {

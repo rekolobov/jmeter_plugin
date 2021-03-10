@@ -69,15 +69,19 @@ public class AggregationAgentAdapter extends AgentLifeCycleAdapter {
 						}
 						logger.activityFinished(PluginConstants.CHECK_REFERENCE_ACTIVITY_NAME);
 					}
+					build.addSharedConfigParameter(PluginConstants.PARAMS_REF_CHECK, "true");
+					build.addSharedConfigParameter(PluginConstants.PARAMS_REF_METRIC_AVG, String.valueOf(properties.isCountAverageReference()));
+					build.addSharedConfigParameter(PluginConstants.PARAMS_REF_METRIC_MAX, String.valueOf(properties.isCountMaxReference()));
+					build.addSharedConfigParameter(PluginConstants.PARAMS_REF_METRIC_LINE90, String.valueOf(properties.isCount90LineReference()));
+					build.addSharedConfigParameter(PluginConstants.PARAMS_VARIATION_CRITICAL, String.valueOf(properties.getCriticalVariation()));
+					build.addSharedConfigParameter(PluginConstants.PARAMS_VARIATION_WARN, String.valueOf(properties.getCriticalVariation()));
+
 					if (properties.isBuildHistoryValues()) {
-						build.addSharedConfigParameter(PluginConstants.PARAMS_REF_CHECK, "true");
 						build.addSharedConfigParameter(PluginConstants.PARAMS_REF_TYPE_BUILD_HISTORY, "true");
 						build.addSharedConfigParameter(PluginConstants.PARAMS_REF_BUILD_COUNT, String.valueOf(properties.getBuildCount()));
-						build.addSharedConfigParameter(PluginConstants.PARAMS_REF_METRIC_AVG, String.valueOf(properties.isCountAverageReference()));
-						build.addSharedConfigParameter(PluginConstants.PARAMS_REF_METRIC_MAX, String.valueOf(properties.isCountMaxReference()));
-						build.addSharedConfigParameter(PluginConstants.PARAMS_REF_METRIC_LINE90, String.valueOf(properties.isCount90LineReference()));
-						build.addSharedConfigParameter(PluginConstants.PARAMS_VARIATION_CRITICAL, String.valueOf(properties.getCriticalVariation()));
-						build.addSharedConfigParameter(PluginConstants.PARAMS_VARIATION_WARN, String.valueOf(properties.getCriticalVariation()));
+					}
+					if (properties.isTaggedBuildsValues()) {
+						build.addSharedConfigParameter(PluginConstants.PARAMS_REF_TYPE_TAGS, "true");
 					}
 				}
 			}

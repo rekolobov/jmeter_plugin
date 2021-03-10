@@ -75,10 +75,28 @@ public class FeaturePerformanceStatistic extends BuildFeature {
 			@Override
 			public Collection<InvalidProperty> process(Map<String, String> params) {
 				Collection<InvalidProperty> invalidProperties = new ArrayList<InvalidProperty>();
+
+
 				if (params.get(PluginConstants.PARAMS_AGGREGATE_FILE) == null) {
 					invalidProperties.add(new InvalidProperty(PluginConstants.PARAMS_AGGREGATE_FILE, "File with data to aggregate can't be empty!"));
 				}
 				if (Boolean.parseBoolean(params.get(PluginConstants.PARAMS_REF_CHECK))) {
+
+					if ((params.get(PluginConstants.PARAMS_REF_TYPE_BUILD_HISTORY) != null
+							&& (params.get(PluginConstants.PARAMS_REF_TYPE_TAGS) != null
+							|| params.get(PluginConstants.PARAMS_REF_TYPE_FILE) != null))
+							|| (params.get(PluginConstants.PARAMS_REF_TYPE_TAGS) != null
+							&& (params.get(PluginConstants.PARAMS_REF_TYPE_BUILD_HISTORY) != null
+							|| params.get(PluginConstants.PARAMS_REF_TYPE_FILE) != null))
+							|| (params.get(PluginConstants.PARAMS_REF_TYPE_FILE) != null
+							&& (params.get(PluginConstants.PARAMS_REF_TYPE_TAGS) != null
+							|| params.get(PluginConstants.PARAMS_REF_TYPE_BUILD_HISTORY) != null))
+							|| (params.get(PluginConstants.PARAMS_REF_TYPE_FILE) == null
+							&& params.get(PluginConstants.PARAMS_REF_TYPE_TAGS) == null
+							&& params.get(PluginConstants.PARAMS_REF_TYPE_BUILD_HISTORY) == null)) {
+						invalidProperties.add(new InvalidProperty("perfTest.agg.ref", "Please, set one of calculation type!"));
+					}
+
 					if (Boolean.parseBoolean(params.get(PluginConstants.PARAMS_REF_TYPE_BUILD_HISTORY)) && params.get(PluginConstants.PARAMS_REF_BUILD_COUNT) == null) {
 						invalidProperties.add(new InvalidProperty(PluginConstants.PARAMS_REF_BUILD_COUNT, "Set count of build to calculate reference value!"));
 					}
